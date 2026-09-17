@@ -37,7 +37,10 @@ android {
     minSdk = 31
     targetSdk = 37
     versionCode = 44
-    versionName = "1.0.20"
+    // Laputa: the model allowlist URL is derived from versionName
+    // (model_allowlists/<version>.json). Upstream bumped to 1.0.20 before
+    // publishing that file, so it 404s. Pin to the newest published list.
+    versionName = "1.0.19"
 
     // Needed for HuggingFace auth workflows.
     // Use the scheme of the "Redirect URLs" in HuggingFace app.

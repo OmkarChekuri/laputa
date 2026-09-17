@@ -1281,7 +1281,24 @@ constructor(
           var version = BuildConfig.VERSION_NAME.replace(".", "_")
           val url = getAllowlistUrl(version)
           Log.d(TAG, "Loading model allowlist from internet. Url: $url")
-          val data = getJsonResponse<ModelAllowlist>(url = url)
+          var data = getJsonResponse<ModelAllowlist>(url = url)
+
+          // Laputa: the allowlist file is named after versionName, and upstream
+          // sometimes bumps the version before publishing the matching file (that
+          // request 404s and the list comes back empty). Walk the patch number
+          // down a few steps before giving up.
+          if (data == null) {
+            val parts = version.split("_")
+            var patch = if (parts.size == 3) parts[2].toIntOrNull() ?: 0 else 0
+            var attempts = 0
+            while (data == null && patch > 0 && attempts < 5) {
+              patch--
+              attempts++
+              val fallbackVersion = parts[0] + "_" + parts[1] + "_" + patch
+              Log.w(TAG, "Allowlist $version unavailable; trying $fallbackVersion")
+              data = getJsonResponse<ModelAllowlist>(url = getAllowlistUrl(fallbackVersion))
+            }
+          }
           modelAllowlist = data?.jsonObj
 
           if (modelAllowlist == null) {

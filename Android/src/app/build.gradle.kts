@@ -33,7 +33,7 @@ android {
   compileSdk { this.version = release(37) { minorApiLevel = 0 } }
 
   defaultConfig {
-    applicationId = "com.google.aiedge.gallery"
+    applicationId = "com.laputa.host"
     minSdk = 31
     targetSdk = 37
     versionCode = 44
@@ -132,6 +132,11 @@ dependencies {
   implementation(libs.mcp.kotlin.sdk)
   implementation(libs.ktor.client.android)
   implementation(libs.ktor.client.core)
+  // Local OpenAI-compatible server (Laputa serving mode).
+  implementation(libs.ktor.server.core)
+  implementation(libs.ktor.server.cio)
+  implementation(libs.ktor.server.content.negotiation)
+  implementation(libs.ktor.serialization.kotlinx.json)
   implementation(libs.tasks.vision)
 }
 

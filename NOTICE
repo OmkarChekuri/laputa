@@ -1,0 +1,20 @@
+Laputa
+======
+
+This product is a modified version of Google AI Edge Gallery
+(https://github.com/google-ai-edge/gallery), Copyright 2025 Google LLC,
+licensed under the Apache License, Version 2.0. A copy of the license is in
+the LICENSE file at the root of this repository.
+
+Modifications by the Laputa contributors:
+
+  - Renamed the application to "Laputa" with the application id
+    "com.laputa.host", so it installs alongside the original app.
+  - Added a local model-serving mode: a foreground service exposing an
+    OpenAI-compatible HTTP API on the loopback interface (127.0.0.1), so that
+    other applications on the same device can use the on-device model. See the
+    "server" package.
+
+Laputa is not affiliated with, endorsed by, or sponsored by Google LLC.
+"Google", "Google AI Edge" and "Gemma" are trademarks of Google LLC and are
+used here only to describe the upstream project and the models involved.

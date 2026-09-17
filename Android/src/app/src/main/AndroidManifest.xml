@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -58,7 +59,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="${appIcon}"
-        android:label="Edge Gallery"
+        android:label="Laputa"
         android:roundIcon="${appIcon}"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gallery"
@@ -92,7 +93,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="com.google.ai.edge.gallery" />
+                <data android:scheme="com.laputa.host" />
             </intent-filter>
         </activity>
 
@@ -121,6 +122,17 @@
             android:foregroundServiceType="dataSync"
             android:exported="false"
             tools:node="merge">
+        </service>
+
+        <!-- Laputa: keeps the on-device model loaded and serves it to other apps
+             over a loopback-only OpenAI-compatible HTTP API. -->
+        <service
+            android:name="com.google.ai.edge.gallery.server.LlmServerService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Serves the on-device language model to other applications on this device via a local HTTP API bound to the loopback interface." />
         </service>
 
         <!-- For Firebase Analytics. -->

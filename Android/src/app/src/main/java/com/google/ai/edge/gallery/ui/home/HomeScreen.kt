@@ -62,6 +62,7 @@ import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material.icons.rounded.Flag
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -129,6 +130,7 @@ import com.google.ai.edge.gallery.ui.common.buildTrackableUrlAnnotatedString
 import com.google.ai.edge.gallery.ui.common.rememberDelayedAnimationProgress
 import com.google.ai.edge.gallery.ui.common.tos.AppTosDialog
 import com.google.ai.edge.gallery.ui.common.tos.TosViewModel
+import com.google.ai.edge.gallery.server.ServerDialog
 import com.google.ai.edge.gallery.ui.modelmanager.ModelManagerViewModel
 import com.google.ai.edge.gallery.ui.theme.customColors
 import kotlinx.coroutines.delay
@@ -168,6 +170,7 @@ fun HomeScreen(
 ) {
   val uiState by modelManagerViewModel.uiState.collectAsState()
   var showSettingsDialog by remember { mutableStateOf(false) }
+  var showServerDialog by remember { mutableStateOf(false) }
   var showTosDialog by remember { mutableStateOf(!tosViewModel.getIsTosAccepted()) }
   val scope = rememberCoroutineScope()
   val context = LocalContext.current
@@ -327,6 +330,26 @@ fun HomeScreen(
               }
               Spacer(modifier = Modifier.height(16.dp))
               Row(modifier = Modifier.fillMaxWidth()) {
+                SquareDrawerItem(
+                  label = "Model server",
+                  description = "Serve the on-device model to other apps",
+                  icon = Icons.Rounded.Share,
+                  onClick = {
+                    showServerDialog = true
+                    scope.launch { drawerState.close() }
+                  },
+                  modifier = Modifier.weight(1f),
+                  iconBrush =
+                    linearGradient(
+                      colors =
+                        listOf(
+                          MaterialTheme.customColors.taskBgGradientColors[0][0],
+                          MaterialTheme.customColors.taskBgGradientColors[0][1],
+                        )
+                    ),
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.weight(1f))
               }
             }
           }
@@ -487,6 +510,14 @@ fun HomeScreen(
         showTosDialog = false
         tosViewModel.acceptTos()
       }
+    )
+  }
+
+  // Local model server dialog.
+  if (showServerDialog) {
+    ServerDialog(
+      modelManagerViewModel = modelManagerViewModel,
+      onDismissed = { showServerDialog = false },
     )
   }
 

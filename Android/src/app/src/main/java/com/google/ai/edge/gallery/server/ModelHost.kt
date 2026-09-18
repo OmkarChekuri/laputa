@@ -34,18 +34,29 @@ private const val TAG = "LaputaModelHost"
 /** A prior turn replayed into the conversation so requests stay stateless. */
 data class HistoryTurn(val fromUser: Boolean, val text: String)
 
+/** Exactly what the live conversation holds, so a request that continues it can reuse it. */
+private data class LiveState(val systemPrompt: String, val turns: List<HistoryTurn>)
+
 /**
  * Owns the loaded LiteRT-LM engine for serving.
  *
  * Only one inference may run at a time: a `Conversation` is not safe to drive concurrently, and
- * cancelling does not roll back the KV cache. Every request therefore takes [lock] and starts by
- * resetting the conversation, which makes each HTTP request independent — the same contract the
- * OpenAI API has, where the client sends the whole message list every time.
+ * cancelling does not roll back the KV cache. Every request takes [lock].
+ *
+ * Requests are stateless, as in the OpenAI API: the client sends the whole message list every
+ * time. But re-reading a long system prompt (instructions plus documents) costs seconds on a
+ * phone, so when a request exactly continues the live conversation — same system prompt, and its
+ * history is everything already said — only the new message is sent, and the engine keeps what it
+ * has already read. Anything else, or any doubt (audio, a cancelled or failed turn), starts a
+ * fresh conversation. The engine allows only one live conversation, so this is a single slot.
  */
 object ModelHost {
   private val lock = Mutex()
 
   @Volatile private var loadedName: String = ""
+
+  /** What the live conversation contains; null when unknown or not reusable. */
+  @Volatile private var live: LiveState? = null
 
   val loadedModelName: String
     get() = loadedName
@@ -68,6 +79,7 @@ object ModelHost {
       val error = done.await()
       if (error.isNotEmpty()) throw IllegalStateException(error)
       loadedName = model.name
+      live = null
       Log.d(TAG, "Loaded '${model.name}' (image=${model.supportImage} audio=${model.supportAudio})")
     }
   }
@@ -78,6 +90,7 @@ object ModelHost {
         LlmChatModelHelper.cleanUp(model) {}
       }
       loadedName = ""
+      live = null
     }
   }
 
@@ -101,24 +114,52 @@ object ModelHost {
     audioClips: List<ByteArray>,
   ): Flow<String> = callbackFlow {
     lock.lock()
+    val reply = StringBuilder()
+    var finished = false
     try {
-      // Fresh conversation per request: the client owns the history, and a cancelled
-      // generation would otherwise leave stale tokens in the KV cache.
-      LlmChatModelHelper.resetConversation(
-        model = model,
-        supportImage = model.supportImage,
-        supportAudio = model.supportAudio,
-        systemInstruction = if (systemPrompt.isBlank()) null else Contents.of(systemPrompt),
-        initialMessages =
-          history.map { if (it.fromUser) Message.user(it.text) else Message.model(it.text) },
-      )
+      val current = live
+      val continues =
+        audioClips.isEmpty() &&
+          current != null &&
+          current.systemPrompt == systemPrompt &&
+          current.turns == history
+      // Until this turn completes cleanly, the conversation's contents are unknown.
+      live = null
+      if (continues) {
+        Log.d(TAG, "Continuing the live conversation (${history.size} turns already read)")
+      } else {
+        LlmChatModelHelper.resetConversation(
+          model = model,
+          supportImage = model.supportImage,
+          supportAudio = model.supportAudio,
+          systemInstruction = if (systemPrompt.isBlank()) null else Contents.of(systemPrompt),
+          initialMessages =
+            history.map { if (it.fromUser) Message.user(it.text) else Message.model(it.text) },
+        )
+      }
 
       LlmChatModelHelper.runInference(
         model = model,
         input = userText,
         resultListener = { partialResult, done, _ ->
-          if (partialResult.isNotEmpty()) trySend(partialResult)
-          if (done) close()
+          if (partialResult.isNotEmpty()) {
+            reply.append(partialResult)
+            trySend(partialResult)
+          }
+          if (done) {
+            finished = true
+            // A text turn that ran to completion can be continued by the next request.
+            // (A cancelled turn also reports done, but the collector has gone by then and
+            // awaitClose has already marked the state unknown.)
+            if (audioClips.isEmpty() && !isClosedForSend) {
+              live =
+                LiveState(
+                  systemPrompt,
+                  history + HistoryTurn(true, userText) + HistoryTurn(false, reply.toString()),
+                )
+            }
+            close()
+          }
         },
         cleanUpListener = {},
         onError = { message -> close(IllegalStateException(message)) },
@@ -129,9 +170,13 @@ object ModelHost {
     }
 
     awaitClose {
-      // Collector gone (client disconnected or an error): stop the native generation,
-      // which the Flow itself does not do.
-      runCatching { LlmChatModelHelper.stopResponse(model) }
+      if (!finished) {
+        // Collector gone mid-generation (client disconnected or an error): stop the native
+        // generation, which the Flow itself does not do. The KV cache now holds a partial
+        // turn, so the next request must start afresh.
+        live = null
+        runCatching { LlmChatModelHelper.stopResponse(model) }
+      }
       if (lock.isLocked) runCatching { lock.unlock() }
     }
   }

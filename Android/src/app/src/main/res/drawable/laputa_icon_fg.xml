@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Laputa's mark: a floating island with two towers. Sized for the adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Rock underside, tapering to a point. -->
+    <path
+        android:fillColor="#8A5A3B"
+        android:pathData="M29,59 L79,59 L72,68 L63,76 L56,87 L50,77 L40,69 Z" />
+    <path
+        android:fillColor="#6A4129"
+        android:pathData="M54,59 L79,59 L72,68 L63,76 L56,87 L54,80 Z" />
+    <!-- Grassy top. -->
+    <path
+        android:fillColor="#7EE0A5"
+        android:pathData="M27,57 Q54,50 81,57 L79,61 Q54,56 29,61 Z" />
+    <!-- Small tower. -->
+    <path
+        android:fillColor="#F4F1E8"
+        android:pathData="M36,45 L44,45 L44,57 L36,57 Z" />
+    <path
+        android:fillColor="#3949AB"
+        android:pathData="M34.5,46 L40,38 L45.5,46 Z" />
+    <!-- Main tower. -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M48,36 L60,36 L60,56 L48,56 Z" />
+    <path
+        android:fillColor="#3949AB"
+        android:pathData="M46,37 L54,25 L62,37 Z" />
+    <path
+        android:fillColor="#3949AB"
+        android:pathData="M52,42 L56,42 L56,48 L52,48 Z" />
+    <!-- A tree. -->
+    <path
+        android:fillColor="#3FB67A"
+        android:pathData="M64.5,52a4.5,4.5 0,1 0,9 0a4.5,4.5 0,1 0,-9 0" />
+</vector>

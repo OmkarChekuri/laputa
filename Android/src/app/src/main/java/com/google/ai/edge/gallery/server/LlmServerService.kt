@@ -28,6 +28,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.ai.edge.gallery.MainActivity
+import com.google.ai.edge.gallery.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -49,6 +50,11 @@ class LlmServerService : Service() {
   private var server: LlmServer? = null
 
   override fun onBind(intent: Intent?): IBinder? = null
+
+  override fun onCreate() {
+    super.onCreate()
+    ServerRegistry.appContext = applicationContext
+  }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
     if (intent?.action == ACTION_STOP) {
@@ -151,7 +157,7 @@ class LlmServerService : Service() {
     return NotificationCompat.Builder(this, CHANNEL_ID)
       .setContentTitle("Laputa model server")
       .setContentText(statusLine + " · " + LlmServer.LOOPBACK + ":" + port)
-      .setSmallIcon(android.R.drawable.ic_dialog_info)
+      .setSmallIcon(R.drawable.ic_laputa_small)
       .setOngoing(true)
       .setContentIntent(open)
       .addAction(0, "Stop", stop)

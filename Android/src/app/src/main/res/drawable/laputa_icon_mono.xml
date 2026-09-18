@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Single-colour island for themed icons, the Quick Settings tile and the notification. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M27,57 Q54,50 81,57 L79,61 L72,68 L63,76 L56,87 L50,77 L40,69 L29,61 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M36,45 L44,45 L44,55 L36,55 Z M34.5,46 L40,38 L45.5,46 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M48,36 L60,36 L60,55 L48,55 Z M46,37 L54,25 L62,37 Z" />
+</vector>

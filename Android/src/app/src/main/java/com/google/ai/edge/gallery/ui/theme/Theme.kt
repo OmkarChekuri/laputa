@@ -149,7 +149,7 @@ val LocalCustomColors = staticCompositionLocalOf { CustomColors() }
 
 val lightCustomColors =
   CustomColors(
-    appTitleGradientColors = listOf(Color(0xFF85B1F8), Color(0xFF3174F1)),
+    appTitleGradientColors = listOf(Color(0xFF26C6DA), Color(0xFF3949AB)), // Laputa sky
     tabHeaderBgColor = Color(0xFF3174F1),
     taskCardBgColor = surfaceContainerLowestLight,
     taskBgColors =
@@ -230,7 +230,7 @@ val lightCustomColors =
 
 val darkCustomColors =
   CustomColors(
-    appTitleGradientColors = listOf(Color(0xFF85B1F8), Color(0xFF3174F1)),
+    appTitleGradientColors = listOf(Color(0xFF26C6DA), Color(0xFF3949AB)), // Laputa sky
     tabHeaderBgColor = Color(0xFF3174F1),
     taskCardBgColor = surfaceContainerHighDark,
     taskBgColors =

@@ -29,6 +29,10 @@ private const val PREFS = "laputa_server"
 private const val KEY_PORT = "port"
 private const val KEY_TOKEN = "token"
 private const val KEY_MODEL = "model_name"
+private const val KEY_KNOWN = "known_models"
+
+/** A downloaded model, as remembered for the widget's picker (no live `Model` needed). */
+data class KnownModel(val name: String, val audio: Boolean)
 
 data class ServerState(
   val running: Boolean = false,
@@ -58,8 +62,15 @@ object ServerRegistry {
   private val _state = MutableStateFlow(ServerState())
   val state: StateFlow<ServerState> = _state.asStateFlow()
 
+  /** Set by the app, service, widget and tile, so state changes can refresh the widget. */
+  @Volatile var appContext: Context? = null
+
+  /** A Start tapped on the widget or tile, waiting for the app's model list. */
+  val pendingStart = MutableStateFlow(false)
+
   fun update(transform: (ServerState) -> ServerState) {
     _state.value = transform(_state.value)
+    appContext?.let { ServerControls.refresh(it) }
   }
 
   fun noteActivity(line: String) {
@@ -95,6 +106,20 @@ object ServerRegistry {
 
   fun setLastModelName(context: Context, name: String) {
     prefs(context).edit().putString(KEY_MODEL, name).apply()
+  }
+
+  /** Downloaded models, as last seen by the app: what the widget's picker offers. */
+  fun knownModels(context: Context): List<KnownModel> =
+    (prefs(context).getString(KEY_KNOWN, "") ?: "")
+      .lines()
+      .filter { it.isNotBlank() }
+      .map { KnownModel(name = it.substringBeforeLast('|'), audio = it.endsWith("|1")) }
+
+  fun setKnownModels(context: Context, models: List<KnownModel>) {
+    val encoded = models.joinToString("\n") { it.name + "|" + (if (it.audio) "1" else "0") }
+    if (encoded == prefs(context).getString(KEY_KNOWN, "")) return
+    prefs(context).edit().putString(KEY_KNOWN, encoded).apply()
+    ServerControls.refresh(context)
   }
 
   private fun prefs(context: Context) =

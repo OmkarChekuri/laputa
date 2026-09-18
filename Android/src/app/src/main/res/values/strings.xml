@@ -28,10 +28,10 @@
   <string name="image_limit_ignored_message" translatable="true" description="Toast message indicating some images were ignored due to limit. [CHAR_LIMIT=110]">Some images have been ignored due to limit.</string>
   <string name="aichat_initializing_title" translatable="true" description="Status indicator when initializing model. [CHAR_LIMIT=31]">Initializing model</string>
   <string name="aichat_initializing_content" translatable="true" description="Loading message shown while a chat or translator session is initializing. [CHAR_LIMIT=110]">Sit tight, this can take up to 1 minute</string>
-  <string name="app_intro" translatable="true" description="Introduction text shown on the home screen. [CHAR_LIMIT=90]">Explore a world of amazing on-device models from</string>
-  <string name="app_name" translatable="false">Google AI Edge Gallery</string>
-  <string name="app_name_first_part" translatable="false">Google AI</string>
-  <string name="app_name_second_part" translatable="false">Edge Gallery</string>
+  <string name="app_intro" translatable="true" description="Introduction text shown on the home screen. [CHAR_LIMIT=90]">Run AI models on this phone, and share them with your other apps. Models from</string>
+  <string name="app_name" translatable="false">Laputa</string>
+  <string name="app_name_first_part" translatable="false">Laputa</string>
+  <string name="app_name_second_part" translatable="false">On-device AI</string>
   <string name="askimage_emptystate_title" translatable="false">Ask Image</string>
   <string name="askimage_emptystate_content" translatable="true" description="Instructions shown when starting a chat with image input, explaining how to add images (up to 10). [CHAR_LIMIT=203]">To get started, tap the + below to add an image (max 10 images per chat) and type a prompt to ask a question about it!</string>
   <string name="askimage_emptystate_content_aicore" translatable="true" description="Instructions shown when starting a chat with image input for AICore models, explaining how to add a single image. [CHAR_LIMIT=200]">To get started, tap the + below to add an image (max 1 image per chat) and type a prompt to ask a question about it!</string>
@@ -186,7 +186,7 @@
   <string name="settings_dialog_view_app_terms_of_service" translatable="true" description="Button label to open and read the application's terms of service. [CHAR_LIMIT=30]">View App Terms of Service</string>
   <string name="settings_dialog_gemma_prohibited_use_policy" translatable="true" description="Link text pointing to the Gemma model's prohibited use policy document. [CHAR_LIMIT=44]">Gemma Prohibited Use Policy</string>
   <string name="settings_dialog_firebase_analytics_title" translatable="true" description="Title for the settings toggle control to opt-in/out of analytics tracking. [CHAR_LIMIT=31]">Firebase Analytics</string>
-  <string name="settings_dialog_firebase_analytics_description" translatable="true" description="Description for the Firebase Analytics toggle explaining that it helps improve the app. [CHAR_LIMIT=90]">Send usage data to help improve AI Edge Gallery</string>
+  <string name="settings_dialog_firebase_analytics_description" translatable="true" description="Description for the Firebase Analytics toggle explaining that it helps improve the app. [CHAR_LIMIT=90]">Send usage data to help improve Laputa</string>
   <string name="share" translatable="true" description="Button label to share content (images, text) via other apps. [CHAR_LIMIT=9]">Share</string>
   <string name="slide_up_to_cancel" translatable="true" description="Instruction text telling the user they can slide their finger up to cancel voice recording. [CHAR_LIMIT=31]">Slide up to cancel</string>
   <string name="system_prompt_placeholder" translatable="true" description="Placeholder hint text inside the system prompt editor text field showing example instructions. [CHAR_LIMIT=170]">Enter system instructions (e.g., \"You are a versatile assistant. Provide accurate, context-aware responses in a professional tone.\")</string>
@@ -198,7 +198,7 @@
   <string name="test" translatable="true" description="Button label or header for testing functionality. [CHAR_LIMIT=18]">Test</string>
   <string name="text_image_generation_text_field_placeholder" translatable="true" description="Placeholder hint in a text field for generating images from text prompts. [CHAR_LIMIT=30]">Type prompt…</string>
   <string name="text_input_placeholder_llm_chat" translatable="true" description="Placeholder hint in the chat message input field (e.g., 'Type prompt...'). [CHAR_LIMIT=30]">Type prompt…</string>
-  <string name="tos_dialog_title_app" translatable="true" description="Title of the onboarding Terms of Service dialog. [CHAR_LIMIT=45]">Welcome to Google AI Edge Gallery</string>
+  <string name="tos_dialog_title_app" translatable="true" description="Title of the onboarding Terms of Service dialog. [CHAR_LIMIT=45]">Welcome to Laputa</string>
   <!-- Body text of the Terms of Service dialog. Contains links to Google Terms of Service and Privacy Policy. -->
   <string name="tos_dialog_body" translatable="true" description="Main legal and privacy text inside the Terms of Service dialog, including links to Google policies. [CHAR_LIMIT=997]">By using this app, you agree to the [Google Terms of Service](https://policies.google.com/terms?hl=en-US).\n\nThis app collects aggregated usage metrics to understand user engagement, such as error messages, app actions, IP inferred approximate location, OS version. This data is processed in accordance with the [Google Privacy Policy](https://policies.google.com/privacy?hl=en-US).\n\nYour use of each model is subject to the applicable model license terms.</string>
   <!-- Title of the Gemma Terms of Use dialog. -->
@@ -502,9 +502,9 @@
   <string name="copy_url" translatable="true" description="Button label or accessibility action to copy model URL to clipboard. [CHAR_LIMIT=18]">Copy URL</string>
   <string name="url_copied" translatable="true" description="Toast message shown after model URL is copied to clipboard. [CHAR_LIMIT=45]">URL copied to clipboard</string>
   <string name="compatible_files_header" translatable="true" description="Header for compatible files section showing count. [CHAR_LIMIT=40]">Compatible Files (%1$d):</string>
-  <string name="compatible_files_subheader" translatable="true" description="Subheader explaining compatible model files. [CHAR_LIMIT=90]">LiteRT-LM files compatible with AI Edge Gallery.</string>
+  <string name="compatible_files_subheader" translatable="true" description="Subheader explaining compatible model files. [CHAR_LIMIT=90]">LiteRT-LM files compatible with Laputa.</string>
   <string name="other_files_header" translatable="true" description="Header for incompatible/other files section showing count. [CHAR_LIMIT=32]">Other Files (%1$d):</string>
-  <string name="other_files_subheader" translatable="true" description="Subheader explaining other model files. [CHAR_LIMIT=93]">Files that may not be compatible with AI Edge Gallery.</string>
+  <string name="other_files_subheader" translatable="true" description="Subheader explaining other model files. [CHAR_LIMIT=93]">Files that may not be compatible with Laputa.</string>
   <string name="incompatible_file_selection_prompt" translatable="true" description="Prompt shown when user taps an incompatible file. [CHAR_LIMIT=142]">This file may not be compatible. You can still copy the file URL to import it directly.</string>
   <string name="hf_no_model_files_in_card" translatable="true" description="Error message when no LiteRT model files are found in a Hugging Face repository card. [CHAR_LIMIT=100]">No LiteRT model files (.litertlm) found in this model card.</string>
   <string name="hf_last_updated" translatable="true" description="Label showing when a model was last updated. [CHAR_LIMIT=21]">Updated %1$s</string>
@@ -920,4 +920,12 @@
   <!-- Short description for the Tiny Garden task. [CHAR_LIMIT=35] -->
   <string name="task_short_desc_tiny_garden" translatable="true" description="Short description for the Tiny Garden task. [CHAR_LIMIT=45]">Use natural language to plant</string>
 
+  <!-- Laputa widget and Quick Settings tile. -->
+  <string name="laputa_widget_description" translatable="false">Pick a model and start or stop the local model server</string>
+  <string name="laputa_widget_off" translatable="false">Server off</string>
+  <string name="laputa_widget_starting" translatable="false">Starting…</string>
+  <string name="laputa_widget_pick" translatable="false">Choose a model</string>
+  <string name="laputa_widget_start" translatable="false">Start</string>
+  <string name="laputa_widget_stop" translatable="false">Stop</string>
+  <string name="laputa_tile_label" translatable="false">Laputa server</string>
 </resources>

@@ -50,6 +50,8 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.google.ai.edge.gallery.server.ServerControls
+import com.google.ai.edge.gallery.server.ServerRegistry
 import com.google.ai.edge.gallery.ui.modelmanager.ModelManagerViewModel
 import com.google.ai.edge.gallery.ui.theme.GalleryTheme
 import com.google.ai.edge.litertlm.ExperimentalApi
@@ -71,6 +73,9 @@ class MainActivity : ComponentActivity() {
     // This prevents Jetpack Compose from automatically restoring the previous screen
     // and forces the app to start cleanly on the Home Screen after an OS kill.
     super.onCreate(null)
+
+    // Laputa: Start tapped on the widget or Quick Settings tile.
+    if (intent?.action == ServerControls.ACTION_START) ServerRegistry.pendingStart.value = true
 
     // Debug: Dump all intent extras to see what FCM unloads
     intent.extras?.let { extras ->
@@ -185,6 +190,7 @@ class MainActivity : ComponentActivity() {
   override fun onNewIntent(intent: Intent) {
     super.onNewIntent(intent)
     setIntent(intent)
+    if (intent.action == ServerControls.ACTION_START) ServerRegistry.pendingStart.value = true
 
     // Debug: Dump all intent extras to see what FCM unloads
     intent.extras?.let { extras ->

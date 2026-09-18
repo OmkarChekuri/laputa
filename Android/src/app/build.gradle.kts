@@ -36,7 +36,7 @@ android {
     applicationId = "com.laputa.host"
     minSdk = 31
     targetSdk = 37
-    versionCode = 45
+    versionCode = 46
     // Laputa: the model allowlist URL is derived from versionName
     // (model_allowlists/<version>.json). Upstream bumped to 1.0.20 before
     // publishing that file, so it 404s. Pin to the newest published list.

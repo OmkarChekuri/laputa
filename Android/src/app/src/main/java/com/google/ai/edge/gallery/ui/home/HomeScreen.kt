@@ -130,6 +130,7 @@ import com.google.ai.edge.gallery.ui.common.buildTrackableUrlAnnotatedString
 import com.google.ai.edge.gallery.ui.common.rememberDelayedAnimationProgress
 import com.google.ai.edge.gallery.ui.common.tos.AppTosDialog
 import com.google.ai.edge.gallery.ui.common.tos.TosViewModel
+import com.google.ai.edge.gallery.server.ServerAutoStart
 import com.google.ai.edge.gallery.server.ServerDialog
 import com.google.ai.edge.gallery.ui.modelmanager.ModelManagerViewModel
 import com.google.ai.edge.gallery.ui.theme.customColors
@@ -512,6 +513,12 @@ fun HomeScreen(
       }
     )
   }
+
+  // Laputa: keeps the widget's model list current and carries out a widget/tile Start.
+  ServerAutoStart(
+    modelManagerViewModel = modelManagerViewModel,
+    onNeedsModel = { showServerDialog = true },
+  )
 
   // Local model server dialog.
   if (showServerDialog) {
